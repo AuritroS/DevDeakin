@@ -26,6 +26,9 @@ function TransitionNavigate({ to, replace = false, state }) {
 // Lazy-load route pages for code-splitting.
 const Login = lazy(() => import("../pages/Authentication/Login"));
 const Signup = lazy(() => import("../pages/Authentication/Signup"));
+const ForgotPassword = lazy(
+  () => import("../pages/Authentication/ForgotPassword")
+);
 const PostPage = lazy(() => import("../pages/Post/PostPage"));
 const FindQuestionPage = lazy(
   () => import("../pages/Questions/FindQuestionPage")
@@ -166,6 +169,10 @@ export default function App() {
       <Route
         path="/signup"
         element={user ? <TransitionNavigate to="/" replace /> : <Signup />}
+      />
+      <Route
+        path="/forgot-password"
+        element={user ? <TransitionNavigate to="/" replace /> : <ForgotPassword />}
       />
 
       {/* Catch-all */}

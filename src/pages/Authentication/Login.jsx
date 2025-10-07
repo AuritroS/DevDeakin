@@ -57,6 +57,12 @@ const Login = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    startTransition(() => {
+      navigate("/forgot-password");
+    });
+  };
+
   return (
     <Container text>
       <Button
@@ -88,6 +94,17 @@ const Login = () => {
             onChange={handleChange}
             required
           />
+
+          <Form.Field style={{ textAlign: "right", marginTop: "-6px" }}>
+            <Button
+              type="button"
+              size="small"
+              basic
+              onClick={handleForgotPassword}
+            >
+              Forgot password?
+            </Button>
+          </Form.Field>
 
           <Button primary fluid content="Login" className="btn-primary" />
 

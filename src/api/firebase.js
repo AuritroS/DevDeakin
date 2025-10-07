@@ -5,6 +5,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -42,6 +43,7 @@ export const createAuthUserWithEmailAndPassword = (email, password) =>
   createUserWithEmailAndPassword(auth, email, password);
 export const signInAuthUserWithEmailAndPassword = (email, password) =>
   signInWithEmailAndPassword(auth, email, password);
+export const sendPasswordReset = (email) => sendPasswordResetEmail(auth, email);
 
 export const createUserDocFromAuth = async (userAuth, additional = {}) => {
   if (!userAuth) return null;
