@@ -23,6 +23,9 @@ const Navbar = () => {
   const isSearching = useDelayedFlag(searchingRaw, 150);
   const [open, setOpen] = useState(false);
   const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const { data: recentPosts } = useRecentPosts(10);
   const { data: recentQuestions } = useRecentQuestions(10);
@@ -76,8 +79,18 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const mql = window.matchMedia("(max-width: 768px)");
+    const update = (evt) => setIsMobile(evt.matches);
+    setIsMobile(mql.matches);
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+
   const selectSuggestion = (item) => {
     setOpen(false);
+    setMenuOpen(false);
     setSearchTerm("");
     startTransition(() => {
       if (item.type === "article") navigate(`/articles/${item.id}`);
@@ -92,6 +105,176 @@ const Navbar = () => {
     });
   };
 
+  const focusSearch = () => {
+    setMenuOpen(false);
+    setOpen(true);
+    requestAnimationFrame(() => {
+      searchInputRef.current?.focus();
+    });
+  };
+
+  const renderSuggestions = () => {
+    if (!open || !searchTerm.trim()) return null;
+    if (isSearching) {
+      return <div className={styles.searchHint}>Searching…</div>;
+    }
+    if (suggestions.length === 0) {
+      return (
+        <div className={styles.searchEmpty}>
+          <Icon name="info circle" />
+          <span>No quick matches. Try a different keyword.</span>
+        </div>
+      );
+    }
+    return suggestions.map((item) => (
+      <button
+        key={`${item.type}-${item.id}`}
+        type="button"
+        onClick={() => selectSuggestion(item)}
+        className={styles.searchOption}
+      >
+        <span className={styles.searchOptionTitle}>{item.title}</span>
+        <span className={styles.searchOptionMeta}>
+          <Icon
+            name={item.type === "article" ? "file alternate" : "question circle"}
+            size="small"
+          />
+          <span>{item.type === "article" ? "Article" : "Question"}</span>
+        </span>
+        {item.subtitle && (
+          <span className={styles.searchOptionSubtitle}>{item.subtitle}</span>
+        )}
+      </button>
+    ));
+  };
+
+  const renderSearch = (mobile = false) => (
+    <div
+      className={mobile ? styles.mobileSearchWrap : styles.searchWrap}
+      ref={searchRef}
+    >
+      <Input
+        icon="search"
+        placeholder="Search articles or questions…"
+        fluid
+        value={searchTerm}
+        loading={isSearching}
+        onFocus={() => setOpen(true)}
+        onChange={(e, data) => {
+          setSearchTerm(data.value);
+          if (!open) setOpen(true);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            setOpen(false);
+            return;
+          }
+          if (e.key === "Enter" && suggestions[0]) {
+            selectSuggestion(suggestions[0]);
+          }
+        }}
+        className={styles.search}
+        inputRef={searchInputRef}
+        type="search"
+      />
+      {open && searchTerm.trim() && (
+        <div className={mobile ? styles.mobileSuggestions : styles.searchDropdown}>
+          {renderSuggestions()}
+        </div>
+      )}
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <nav className={styles.mobileNav}>
+        <div className={styles.mobileBar}>
+          <button
+            type="button"
+            className={styles.mobileIconButton}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label="Toggle navigation"
+          >
+            <Icon name={menuOpen ? "close" : "bars"} size="large" />
+          </button>
+          <NavLink
+            to="/"
+            className={styles.mobileBrand}
+            onClick={() => setMenuOpen(false)}
+          >
+            DEV@Deakin
+          </NavLink>
+          <div className={styles.mobileActions}>
+            <button
+              type="button"
+              className={styles.mobileIconButton}
+              onClick={focusSearch}
+              aria-label="Search"
+            >
+              <Icon name="search" size="large" />
+            </button>
+          </div>
+        </div>
+
+        {menuOpen && (
+          <div className={styles.mobileMenu}>
+            <NavLink
+              to="/question"
+              className={styles.mobileMenuLink}
+              onClick={() => setMenuOpen(false)}
+            >
+              Find Question
+            </NavLink>
+            <NavLink
+              to="/post"
+              className={styles.mobileMenuLink}
+              onClick={() => setMenuOpen(false)}
+            >
+              Post
+            </NavLink>
+            <NavLink
+              to={premium ? "/theme" : "/plans"}
+              className={styles.mobileMenuLink}
+              onClick={() => setMenuOpen(false)}
+            >
+              {premium ? "Theme" : "Plans"}
+            </NavLink>
+            <div className={styles.mobileUserRow}>
+              {user ? (
+                <>
+                  <span className={styles.mobileUserName}>
+                    {user.displayName || "User"}
+                  </span>
+                  {premium && <PremiumBadge />}
+                  <button
+                    type="button"
+                    className={styles.mobileLogout}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      handleLogout();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <NavLink
+                  to="/login"
+                  className={styles.mobileLogin}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Login
+                </NavLink>
+              )}
+            </div>
+          </div>
+        )}
+
+        {renderSearch(true)}
+      </nav>
+    );
+  }
+
   return (
     <Menu className={styles.nav} stackable>
       {/* Left */}
@@ -102,70 +285,7 @@ const Navbar = () => {
       <Menu.Item as={NavLink} to="/post" name="Post" />
 
       {/* Middle: full-length search (grows to fill remaining space) */}
-      <Menu.Item className={styles.grow}>
-        <div className={styles.searchWrap} ref={searchRef}>
-          <Input
-            icon="search"
-            placeholder="Search articles or questions…"
-            fluid
-            value={searchTerm}
-            loading={isSearching}
-            onFocus={() => setOpen(true)}
-            onChange={(e, data) => {
-              setSearchTerm(data.value);
-              if (!open) setOpen(true);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") {
-                setOpen(false);
-                return;
-              }
-              if (e.key === "Enter") {
-                if (suggestions[0]) {
-                  selectSuggestion(suggestions[0]);
-                }
-              }
-            }}
-            className={styles.search}
-          />
-
-          {open && searchTerm.trim() && (
-            <div className={styles.searchDropdown}>
-              {isSearching ? (
-                <div className={styles.searchHint}>Searching…</div>
-              ) : suggestions.length === 0 ? (
-                <div className={styles.searchEmpty}>
-                  <Icon name="info circle" />
-                  <span>No quick matches. Try a different keyword.</span>
-                </div>
-              ) : (
-                suggestions.map((item) => (
-                  <button
-                    key={`${item.type}-${item.id}`}
-                    type="button"
-                    onClick={() => selectSuggestion(item)}
-                    className={styles.searchOption}
-                  >
-                    <span className={styles.searchOptionTitle}>{item.title}</span>
-                    <span className={styles.searchOptionMeta}>
-                      <Icon
-                        name={item.type === "article" ? "file alternate" : "question circle"}
-                        size="small"
-                      />
-                      <span>{item.type === "article" ? "Article" : "Question"}</span>
-                    </span>
-                    {item.subtitle && (
-                      <span className={styles.searchOptionSubtitle}>
-                        {item.subtitle}
-                      </span>
-                    )}
-                  </button>
-                ))
-              )}
-            </div>
-          )}
-        </div>
-      </Menu.Item>
+      <Menu.Item className={styles.grow}>{renderSearch(false)}</Menu.Item>
 
       {/* Right */}
       <Menu.Menu position="right">

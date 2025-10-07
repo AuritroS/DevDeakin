@@ -1,17 +1,14 @@
 .nav {
   z-index: 1000;
-  background: var(--navbar-bg) !important; /* theme-aware */
+  background: var(--navbar-bg) !important;
   min-height: 56px;
   width: 100%;
-  overflow-x: auto;
 }
 
-/* Keep menu inline by default */
 .nav :global(.ui.menu) {
   width: 100%;
   flex-wrap: nowrap;
   align-items: center;
-  gap: 0;
 }
 
 .nav :global(.menu > .item) {
@@ -19,18 +16,15 @@
   padding: 10px 14px !important;
 }
 
-/* Menu items inherit theme text color */
 .nav :global(.item) {
   color: var(--text-color) !important;
 }
 
-/* Middle search takes all free space */
 .grow {
   flex: 1 1 auto !important;
   min-width: 260px;
 }
 
-/* Make the input truly full width inside the growing item */
 .search {
   width: 100%;
   min-height: 36px;
@@ -109,57 +103,124 @@
 
 .userFree {
   opacity: 0.5;
-  pointer-events: auto; /* still clickable */
+  pointer-events: auto;
 }
 
 .userPremium {
   opacity: 1;
 }
 
-/* Slight spacing before the badge */
 .userName {
   color: var(--text-color) !important;
   font-weight: 400;
   min-width: 60px;
 }
 
-@media (max-width: 768px) {
-  .nav {
-    padding: 0 8px;
-    overflow-x: hidden;
-  }
+/* Mobile-specific layout */
+.mobileNav {
+  width: 100%;
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--input-border);
+}
 
-  .nav :global(.ui.menu) {
-    flex-wrap: wrap;
-    row-gap: 6px;
-  }
+.mobileBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  gap: 12px;
+}
 
-  .grow {
-    order: 3 !important;
-    flex: 1 1 100% !important;
-    min-width: 100%;
-    padding: 0 !important;
-  }
+.mobileBrand {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1.05rem;
+}
 
-  .searchWrap {
-    margin-top: 4px;
-  }
+.mobileActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .searchDropdown {
-    position: static;
-    box-shadow: none;
-    border-radius: 12px;
-    margin-top: 6px;
-  }
+.mobileIconButton {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+}
 
-  .nav :global(.right.menu) {
-    order: 2;
-    margin-left: auto !important;
-    flex: 0 0 auto;
-    width: auto;
-  }
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px 12px;
+  border-bottom: 1px solid var(--input-border);
+  background: var(--bg-color);
+}
 
-  .nav :global(.right.menu > .item) {
-    padding: 8px 10px !important;
-  }
+.mobileMenuLink {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 6px 0;
+}
+
+.mobileUserRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--input-border);
+}
+
+.mobileUserName {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.mobileLogout {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.mobileLogin {
+  margin-left: auto;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.mobileSearchWrap {
+  padding: 0 12px 12px;
+}
+
+.mobileSearchWrap :global(.ui.input) {
+  width: 100%;
+}
+
+.mobileSuggestions {
+  margin-top: 6px;
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  background: var(--bg-color);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+  padding: 4px 0;
+}
+
+.mobileSuggestions .searchHint,
+.mobileSuggestions .searchEmpty,
+.mobileSuggestions .searchOption {
+  padding: 12px 14px;
+}
+
+.mobileSuggestions .searchOption {
+  gap: 4px;
 }

@@ -233,27 +233,9 @@ const TagFilter = ({ tags, setTags, suggestions = [] }) => {
 
   return (
     <div className={styles.tagFilter}>
-      <div className={styles.tagList}>
-        {tags.map((t) => (
-          <Label
-            key={t}
-            basic
-            className={`${styles.tagLabel} ${styles.tagItem}`}
-          >
-            {t}
-            <Label.Detail
-              as="a"
-              onClick={() => remove(t)}
-              className={styles.tagRemove}
-            >
-              ×
-            </Label.Detail>
-          </Label>
-        ))}
-      </div>
-      <div>
+      <div className={styles.tagInput}>
         <Input
-          placeholder="Add tag…  (Enter / , / Tab)"
+          placeholder="Add tag… (Enter / , / Tab)"
           value={v}
           onChange={(e) => setV(e.target.value)}
           onKeyDown={(e) => {
@@ -272,7 +254,9 @@ const TagFilter = ({ tags, setTags, suggestions = [] }) => {
               .filter(Boolean)
               .forEach(add);
           }}
-          style={{ width: "100%" }}
+          onBlur={() => {
+            if (v.trim()) add(v);
+          }}
           list="tag-suggestions"
         />
         <datalist id="tag-suggestions">
@@ -280,6 +264,24 @@ const TagFilter = ({ tags, setTags, suggestions = [] }) => {
             <option key={s} value={s} />
           ))}
         </datalist>
+      </div>
+      <div className={styles.tagList}>
+        {tags.map((t) => (
+          <Label
+            key={t}
+            basic
+            className={`${styles.tagLabel} ${styles.tagItem}`}
+          >
+            {t}
+            <Label.Detail
+              as="a"
+              onClick={() => remove(t)}
+              className={styles.tagRemove}
+            >
+              ×
+            </Label.Detail>
+          </Label>
+        ))}
       </div>
     </div>
   );

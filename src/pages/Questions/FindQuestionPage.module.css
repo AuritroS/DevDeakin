@@ -13,7 +13,7 @@
 .toolbarTop {
   display: grid;
   gap: 10px;
-  grid-template-columns: minmax(260px, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
 }
 
@@ -34,6 +34,12 @@
 /* ---------------- Search ---------------- */
 .searchBox {
   position: relative;
+}
+.searchBox :global(.ui.input) {
+  width: 100%;
+}
+.searchBox input {
+  width: 100%;
 }
 .searchClear {
   position: absolute;
@@ -100,6 +106,10 @@
   grid-template-columns: 1fr 260px;
   gap: 8px;
   align-items: start;
+  width: 100%;
+}
+
+.tagInput {
   width: 100%;
 }
 
@@ -229,6 +239,10 @@
   .tagFilter {
     grid-template-columns: 1fr;
     gap: 6px;
+  }
+
+  .tagInput {
+    order: 1;
   }
 
   .datePopover {
