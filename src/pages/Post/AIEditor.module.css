@@ -208,3 +208,32 @@
   flex-wrap: wrap;
   gap: 6px;
 }
+
+@media (max-width: 768px) {
+  .aiDock {
+    height: min(70vh, var(--dock-height, 420px)) !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  .aiGrid {
+    height: calc(min(70vh, var(--dock-height, 420px)) - 62px);
+  }
+
+  .aiMessages {
+    padding: 10px;
+  }
+
+  .aiComposerRow {
+    flex-direction: column;
+  }
+
+  .aiComposerRow :global(.ui.input),
+  .aiComposerRow button {
+    width: 100%;
+  }
+
+  .aiToggleBtn {
+    right: 12px;
+    bottom: 20px;
+  }
+}

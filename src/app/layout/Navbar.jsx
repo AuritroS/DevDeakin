@@ -93,7 +93,7 @@ const Navbar = () => {
   };
 
   return (
-    <Menu className={styles.nav}>
+    <Menu className={styles.nav} stackable>
       {/* Left */}
       <Menu.Item as={NavLink} to="/" header>
         DEV@Deakin

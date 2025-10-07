@@ -1,7 +1,20 @@
 .nav {
   z-index: 1000;
   background: var(--navbar-bg) !important; /* theme-aware */
-    min-height: 56px;  
+  min-height: 56px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.nav :global(.ui.menu) {
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 4px;
+}
+
+.nav :global(.menu > .item) {
+  flex: 0 0 auto;
+  padding: 10px 12px !important;
 }
 
 /* Menu items inherit theme text color */
@@ -104,4 +117,37 @@
   color: var(--text-color) !important;
   font-weight: 400;
   min-width: 60px;    
+}
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 8px;
+  }
+
+  .grow {
+    order: 3 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .search {
+    min-height: 36px;
+  }
+
+  .searchDropdown {
+    position: static;
+    box-shadow: none;
+    border-radius: 12px;
+    margin-top: 6px;
+  }
+
+  .nav :global(.right.menu) {
+    width: 100%;
+    order: 4;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .nav :global(.right.menu > .item) {
+    padding: 8px 10px !important;
+  }
 }

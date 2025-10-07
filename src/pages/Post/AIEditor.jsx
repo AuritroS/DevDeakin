@@ -141,20 +141,41 @@ export default function AIEditor({
   const [appliedSnapshots, setAppliedSnapshots] = useState({}); // changeId -> previous value
 
   // Resizable dock
-  const [dockHeight, setDockHeight] = useState(480);
-  const startResize = (e) => {
-    const startY = e.clientY;
+  const initialDockHeight =
+    typeof window !== "undefined"
+      ? Math.min(500, Math.max(320, window.innerHeight * 0.6))
+      : 480;
+  const [dockHeight, setDockHeight] = useState(initialDockHeight);
+  const startResize = (event) => {
+    const startClientY =
+      "touches" in event ? event.touches[0].clientY : event.clientY;
     const startH = dockHeight;
-    const MIN = 260;
-    const MAX = Math.max(360, window.innerHeight - 140);
-    const onMove = (ev) =>
-      setDockHeight(clamp(startH + (startY - ev.clientY), MIN, MAX));
+    const MIN = 240;
+    const MAX = Math.max(320, window.innerHeight - 120);
+
+    const onMove = (ev) => {
+      const clientY =
+        "touches" in ev ? ev.touches[0].clientY : ev.clientY;
+      if (typeof clientY !== "number") return;
+      setDockHeight(clamp(startH + (startClientY - clientY), MIN, MAX));
+      if ("preventDefault" in ev && typeof ev.preventDefault === "function") {
+        ev.preventDefault();
+      }
+    };
+
     const onUp = () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onUp);
     };
+
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
+    window.addEventListener("touchmove", onMove, { passive: false });
+    window.addEventListener("touchend", onUp);
+
+    if (event.preventDefault) event.preventDefault();
   };
 
   const mergeTags = (existing = [], add = []) =>
@@ -573,6 +594,7 @@ export default function AIEditor({
           <div
             className={styles.aiResizeHandle}
             onMouseDown={startResize}
+            onTouchStart={startResize}
             title="Drag to resize"
           >
             <div className={styles.aiResizeGrip} />

@@ -192,10 +192,47 @@
   padding: 4px;
   line-height: 0;
   display: inline-flex;
+  touch-action: none;
 }
 
 .loadMoreSentinel {
   height: 1px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .toolbarTop {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbarBottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .toolbarButtons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .tagFilter {
+    grid-template-columns: 1fr;
+  }
+
+  .datePopover {
+    position: fixed;
+    top: 10vh;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(90vw, 360px);
+    max-height: 80vh;
+    overflow: auto;
+  }
 }
 
 /* ---------------- Buttons ---------------- */
