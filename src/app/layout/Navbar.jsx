@@ -105,14 +105,6 @@ const Navbar = () => {
     });
   };
 
-  const focusSearch = () => {
-    setMenuOpen(false);
-    setOpen(true);
-    requestAnimationFrame(() => {
-      searchInputRef.current?.focus();
-    });
-  };
-
   const renderSuggestions = () => {
     if (!open || !searchTerm.trim()) return null;
     if (isSearching) {
@@ -204,16 +196,7 @@ const Navbar = () => {
           >
             DEV@Deakin
           </NavLink>
-          <div className={styles.mobileActions}>
-            <button
-              type="button"
-              className={styles.mobileIconButton}
-              onClick={focusSearch}
-              aria-label="Search"
-            >
-              <Icon name="search" size="large" />
-            </button>
-          </div>
+          <div className={styles.mobileActions} />
         </div>
 
         {menuOpen && (
