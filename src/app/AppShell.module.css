@@ -1,0 +1,69 @@
+/* Skeleton (full-page loader, fills viewport) */
+.pageSkeleton {
+  min-height: 100vh;           /* take full screen height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     /* vertical center */
+  align-items: center;         /* horizontal center */
+  padding: 24px;
+  background: #fafafa;         /* optional light bg to contrast */
+}
+
+.skLine {
+  height: 16px;
+  margin-bottom: 8px;
+  background: #eee;
+  border-radius: 6px;
+  width: 60%;
+  max-width: 600px;
+}
+
+.skTitle {
+  height: 24px;
+  width: 200px;
+  margin-bottom: 20px;
+  background: #eee;
+  border-radius: 6px;
+}
+
+.skCard {
+  height: 180px;
+  width: 80%;
+  max-width: 700px;
+  margin-bottom: 24px;
+  background: #f3f3f3;
+  border-radius: 12px;
+}
+
+
+/* Error fallback (centered full-screen) */
+.errorWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;      /* vertical center */
+  justify-content: center;  /* horizontal center */
+  padding: 24px;
+}
+
+.errorBox {
+  max-width: 720px;
+  width: 100%;
+  text-align: center;
+}
+
+.errorTitle {
+  margin: 0 0 12px 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.errorMessage {
+  white-space: pre-wrap;
+  margin: 0 0 16px 0;
+  color: #333;
+}
+
+.buttonRow {
+  margin-top: 8px;
+  display: inline-block;
+}

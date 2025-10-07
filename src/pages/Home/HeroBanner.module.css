@@ -1,0 +1,32 @@
+/* HeroBanner.module.css */
+.heroShell {
+  width: 100%;
+  aspect-ratio: 6 / 1;  /* pick the ratio of your banner */
+  overflow: hidden;
+}
+
+
+.heroImg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* simple shimmer skeleton */
+.heroSkeleton {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.06) 25%,
+    rgba(0,0,0,0.12) 37%,
+    rgba(0,0,0,0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: heroShimmer 1.2s infinite;
+}
+@keyframes heroShimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}

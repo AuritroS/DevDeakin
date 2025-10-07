@@ -1,0 +1,210 @@
+/* src/app/pages/Post/AIEditor.module.css */
+
+/* ===== AI Dock & Button ===== */
+
+.aiToggleBtn {
+  position: fixed;
+  right: 16px;
+  z-index: 2000;
+}
+.aiToggleBtnClosed {
+  bottom: calc(var(--footer-height, 120px) + 16px);
+}
+.aiToggleBtnOpen {
+  bottom: calc(var(--dock-height, 480px) + 16px);
+}
+
+/* Dock */
+.aiDock {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1500 !important;
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.25) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: var(--dock-height, 480px) !important;
+  background: var(--bg-color) !important;
+  border: none !important;
+}
+
+/* Resize handle */
+.aiResizeHandle {
+  height: 10px;
+  cursor: ns-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.aiResizeGrip {
+  width: 44px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Header */
+.aiHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--input-border);
+}
+.aiHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Body grid (messages + composer) */
+.aiGrid {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: calc(var(--dock-height, 480px) - 62px);
+}
+
+/* Messages */
+.aiMessages {
+  overflow-y: auto;
+  padding: 14px;
+}
+
+/* Rows & bubbles */
+.aiMessageRow {
+  margin-bottom: 10px;
+  display: flex;
+}
+.aiRowUser {
+  justify-content: flex-end;
+}
+.aiRowAssistant {
+  justify-content: flex-start;
+}
+
+.aiMessageBubble {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+  max-width: min(760px, 85vw);
+}
+.aiMessageBubbleUser {
+  background: var(--accent-color);
+  color: #fff;
+}
+.aiMessageBubbleAssistant {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.aiBubbleActions {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.aiChangeList {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aiChangeCard {
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: color-mix(in srgb, var(--bg-color) 92%, var(--accent-color) 8%);
+}
+
+.aiChangeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.aiChangeTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aiChangeMeta {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--text-color) 65%, var(--input-border));
+}
+
+.aiChangeApplied {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.aiChangePreview {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-color);
+  white-space: pre-wrap;
+  max-height: 140px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+
+.aiChangeActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.aiApplyButton.ui.button {
+  background: var(--accent-color) !important;
+  color: var(--bg-color) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+.aiApplyButton.ui.button:hover {
+  background: color-mix(in srgb, var(--accent-color) 90%, black 10%) !important;
+}
+.aiApplyButton.ui.button:active {
+  background: color-mix(in srgb, var(--accent-color) 80%, black 20%) !important;
+}
+
+.aiUndoButton.ui.button {
+  border: 1px solid var(--accent-color) !important;
+  color: var(--accent-color) !important;
+  border-radius: 6px !important;
+}
+.aiUndoButton.ui.button:hover {
+  background: color-mix(in srgb, var(--accent-color) 10%, var(--bg-color) 90%) !important;
+}
+
+/* Composer */
+.aiComposerBar {
+  padding: 10px;
+  border-top: 1px solid var(--input-border);
+}
+.aiComposerRow {
+  display: flex;
+  gap: 8px;
+}
+.aiComposerInput {
+  flex: 1;
+  min-width: 0;
+}
+.aiQuickRow {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
