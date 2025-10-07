@@ -52,6 +52,7 @@
 /* ---------------- Date Picker (wrapper + popover) ---------------- */
 .dateButtonWrapper {
   position: relative;
+  justify-self: end;
 }
 
 .datePopover {
@@ -102,12 +103,17 @@
   width: 100%;
 }
 
+.tagFilter :global(.ui.input) {
+  width: 100%;
+}
+
 .tagList {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   min-height: 36px;
   padding: 4px 0;
+  width: 100%;
 }
 
 /* Keep tag filter tags full accent */
@@ -206,6 +212,7 @@
 
   .toolbarTop {
     grid-template-columns: 1fr;
+    row-gap: 6px;
   }
 
   .toolbarBottom {
@@ -221,6 +228,7 @@
 
   .tagFilter {
     grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .datePopover {
@@ -229,9 +237,21 @@
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    width: min(90vw, 360px);
+    width: calc(100vw - 32px);
+    max-width: 420px;
     max-height: 80vh;
     overflow: auto;
+  }
+
+  .dateButtonWrapper {
+    justify-self: end;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .tagList {
+    order: 2;
   }
 }
 

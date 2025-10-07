@@ -99,6 +99,7 @@ const SearchBox = ({ value, onChange, onClear, pending }) => (
 const DateRangeButton = ({ state, setState }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const onDoc = (e) => {
@@ -108,6 +109,15 @@ const DateRangeButton = ({ state, setState }) => {
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, [open]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(max-width: 768px)");
+    const handler = (evt) => setIsMobile(evt.matches);
+    setIsMobile(mql.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   const { active, ranges } = state;
   const { startDate, endDate } = ranges[0];
@@ -131,11 +141,13 @@ const DateRangeButton = ({ state, setState }) => {
       {open && (
         <div className={styles.datePopover}>
           <DateRangePicker
-            months={2}
-            direction="horizontal"
+            months={isMobile ? 1 : 2}
+            direction={isMobile ? "vertical" : "horizontal"}
             moveRangeOnFirstSelection={false}
-            showSelectionPreview
+            showSelectionPreview={!isMobile}
             ranges={ranges}
+            staticRanges={isMobile ? [] : undefined}
+            inputRanges={isMobile ? [] : undefined}
             onChange={(r) =>
               setState((prev) => ({
                 ...prev,
